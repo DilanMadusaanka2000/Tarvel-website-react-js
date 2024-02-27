@@ -15,9 +15,9 @@ export default function Hero() {
 
       if (currentIndex === text.length) {
         clearInterval(interval);
-        setTextToShow(text); // Set the state to the entire text string
+        setTextToShow(text);
       }
-    }, 50); // Adjust the speed of typing here (milliseconds)
+    }, 50); 
 
     return () => clearInterval(interval);
   }, []);
@@ -90,14 +90,14 @@ const Section = styled.section`
       }
     }
 
-    /* Styles for the modified section */
+    
     h1 {
       font-size: 3rem;
       color: white;
       margin-top: 2rem;
 
       span {
-        letter-spacing: 0.3rem; /* Adjust as needed */
+        letter-spacing: 0.3rem; 
       }
     }
   }
