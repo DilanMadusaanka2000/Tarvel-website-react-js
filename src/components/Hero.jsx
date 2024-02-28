@@ -1,45 +1,56 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import homeImg from '../assests/homeImg.jpg';
+import homeImg1 from '../assests/homeImg1.jpg';
+import homeImg2 from '../assests/homeImg2.jpg';
+
+const imageTexts = [
+  { image: homeImg, text: "VISIT SRI LANKA BEAUTIFUL PLACES" },
+  { image: homeImg1, text: "DISCOVER PARADISE TODAY" },
+  { image: homeImg2, text: "EXPERIENCE THE MAGIC OF SRI LANKA" }
+];
 
 export default function Hero() {
-  const [textToShow, setTextToShow] = useState('');
+     const [currentImgIndex, setCurrentImgIndex] = useState(0);
+     const [textToShow, setTextToShow] = useState('');
+     const [typingIndex, setTypingIndex] = useState(0);
 
   useEffect(() => {
-    const text = "VISIT SRI LANKA BEAUTIFULL PLACESS";
-    let currentIndex = 0;
+    const textLength = imageTexts[currentImgIndex].text.length;
+    const typingInterval = setInterval(() => {
+      setTypingIndex(prevIndex => {
+        if (prevIndex < textLength) {
+          return prevIndex + 1;
+        } else {
+          clearInterval(typingInterval);
+          setTimeout(() => {
+            setCurrentImgIndex(prevIndex => (prevIndex + 1) % imageTexts.length);
+            setTextToShow('');
+            setTypingIndex(0);
+          }, 2000); 
+          return prevIndex;
+        }
+      });
+    }, 50);
 
-    const interval = setInterval(() => {
-      setTextToShow(prevText => prevText + text[currentIndex]);
-      currentIndex++;
+    return () => clearInterval(typingInterval);
+  }, [currentImgIndex]);
 
-      if (currentIndex === text.length) {
-        clearInterval(interval);
-        setTextToShow(text);
-      }
-    }, 50); 
-
-    return () => clearInterval(interval);
-  }, []);
+  useEffect(() => {
+    setTextToShow(imageTexts[currentImgIndex].text.substring(0, typingIndex));
+  }, [typingIndex, currentImgIndex]);
 
   return (
     <Section id="hero">
-
       <div className="background">
-        <img src={homeImg} alt="home-img" />
+        <img src={imageTexts[currentImgIndex].image} alt="home-img" />
       </div>
-
       <div className="content">
         <div className="title">
           <h1>Travel Sri Lanka</h1>
           <p>Explore Sri Lanka's Rich Heritage, Stunning Landscapes, Vibrant Culture, and Exotic Cuisine with Unforgettable Adventures Await You. Discover Paradise Today!</p>
         </div>
-
-      
-       <h1><span>{textToShow}</span></h1>
-       
-      
-        
+        <h1><span>{textToShow}</span></h1>
       </div>
     </Section>
   );
@@ -90,7 +101,6 @@ const Section = styled.section`
       }
     }
 
-    
     h1 {
       font-size: 3rem;
       color: white;
@@ -101,45 +111,40 @@ const Section = styled.section`
       }
     }
   }
-}
 
-@media screen and (min-width: 280px) and (max-width: 980px) {
-  height: 25rem;
-  .background {
-    background-color: palegreen;
-    img {
-      height: 100%;
-    }
-  }
-  .content {
-    .title {
-      h1 {
-        font-size: 1rem;
-      }
-      p {
-        font-size: 0.8rem;
-        padding: 1vw;
+  @media screen and (min-width: 280px) and (max-width: 980px) {
+    height: 25rem;
+    .background {
+      background-color: palegreen;
+      img {
+        height: 100%;
       }
     }
-    .search {
-      flex-direction: column;
-      padding: 0.8rem;
-      gap: 0.8rem;
-      /* padding: 0; */
-      .container {
-        padding: 0 0.8rem;
-        input[type="date"] {
-          padding-left: 1rem;
+    .content {
+      .title {
+        h1 {
+          font-size: 1rem;
+        }
+        p {
+          font-size: 0.8rem;
+          padding: 1vw;
         }
       }
-      button {
-        padding: 1rem;
-        font-size: 1rem;
+      .search {
+        flex-direction: column;
+        padding: 0.8rem;
+        gap: 0.8rem;
+        .container {
+          padding: 0 0.8rem;
+          input[type="date"] {
+            padding-left: 1rem;
+          }
+        }
+        button {
+          padding: 1rem;
+          font-size: 1rem;
+        }
       }
-      /* display: none; */
     }
   }
-}
-
-
 `;

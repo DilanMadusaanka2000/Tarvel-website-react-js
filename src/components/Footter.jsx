@@ -21,13 +21,15 @@ export default function Footter() {
 
         <ul className="social_links">
           <li>
-            <BsFacebook/>
+          <BsLinkedin/>
+           
           </li>
           <li>
-            <AiFillInstagram/>
+          <BsFacebook/>
           </li>
           <li>
-            <BsLinkedin/>
+          <AiFillInstagram/>
+
           </li>
         </ul>
 
